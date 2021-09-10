@@ -1,6 +1,5 @@
 package desenho;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -13,21 +12,22 @@ import javax.swing.JFrame;
  */
 public class Desenho extends JFrame {
     
-    boolean pressionado = false;
+    //Lista para armazenar os pontos selecionados
+     ArrayList<Posicao> posicoes = new ArrayList<>();
     
     public Desenho() {
         
         addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent me) {
+                 Point ponto = getMousePosition();
+                 posicoes.add(new Posicao(ponto.x, ponto.y));
+                 repaint();
             }
 
             public void mousePressed(MouseEvent me) {
-                pressionado = true;
-                 posicoes.clear();
             }
 
             public void mouseReleased(MouseEvent me) {
-                  pressionado = false;
             }
 
             public void mouseEntered(MouseEvent me) {
@@ -37,16 +37,12 @@ public class Desenho extends JFrame {
             }
         });
         
-        new Time().start();
-        
         //Configuração da Janela
         setSize(1200,900);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
-    ArrayList<Posicao> posicoes = new ArrayList<>();
     
     public class Posicao {
         int x, y;
@@ -66,6 +62,7 @@ public class Desenho extends JFrame {
             int x2 = posicoes.get(i-1).x;
             int y2 = posicoes.get(i-1).y;
             
+            //Desenha o ponto ou reta na tela
             g.drawLine(x2, y2, x, y);
         }
        
@@ -76,20 +73,5 @@ public class Desenho extends JFrame {
         new Desenho();
         
     }
-    
-    //Monitora o movimento do mouse e salva as coordenadas a todo momento
-    public class Time extends Thread {
-        public void run() {     
-            while(true) {
-                if(pressionado){
-                    try{
-                        Point ponto = getMousePosition();
-                        posicoes.add(new Posicao(ponto.x, ponto.y));
-                } catch (Exception erro){}
-                }
-                repaint(); //Redesenha a tela a todo momento
-            }
-        }
-    }
-    
+ 
 }
