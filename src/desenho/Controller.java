@@ -17,6 +17,7 @@ public class Controller {
         p.addPonto(new Ponto(x, y));
     }
     
+    //Retorna os pontos como inteiros
     public ArrayList<int[]> getPontos() {
         ArrayList<int[]> pontos = new ArrayList();
         
@@ -34,6 +35,7 @@ public class Controller {
         p.cleanPoints();
     }
     
+    //Função para encontrar os pontos de intersecção
     public ArrayList<Point> findIntersections() {
         int pontosMax[] = p.getMaxAndMin(); //xmax, xmin, ymax, ymin 
         int xmax = pontosMax[0];
@@ -64,7 +66,7 @@ public class Controller {
                     intersectionPoints.add(new Point(roundedX, yTemp));
                 }
             }
-            //for the last interval
+            //Para o último intervalo
             int x1, x2, y1, y2;
             x1 = Pontos.get(Pontos.size() - 1).getX();
             y1 = Pontos.get(Pontos.size() - 1).getY();
@@ -73,17 +75,11 @@ public class Controller {
             if ((y1 <= yTemp && y2 > yTemp) || (y2 <= yTemp && y1 > yTemp)) {
                 intersectionPoints.add(new Point(x1 + ((x2 - x1) / (y2 - y1)) * (yTemp - y1), yTemp));
             }
-            //you have to sort the intersection points of every scanline from the lowest x value to the highest
-            
-//            intersectionPoints.sort((t, t1) -> {;
-//                return t.y > t1.y ? 1 : 0;
-//            });
-            //Collections.sort(intersectionPoints);
+           
             intersectionPoints.sort((t, t1) -> {
                 return t.x > t1.x ? 1 : 0;
             });           
         }
-        //System.out.println(intersectionPoints);
          return intersectionPoints;
     }
   

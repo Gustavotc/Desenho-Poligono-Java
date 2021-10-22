@@ -122,27 +122,32 @@ public class TelaDesenho extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        //Pega posição da tela que o usuário clicou
         Point ponto = getMousePosition();
         controller.addPonto(ponto.x, ponto.y);
         repaint();
     }//GEN-LAST:event_formMouseClicked
 
     private void btnFecharFormaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharFormaActionPerformed
+        //Fecha a forma desenhada
         controller.end = true;
         repaint();
     }//GEN-LAST:event_btnFecharFormaActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        //Fecha o programa
         System.exit(0);
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        //Limpa a tela 
         controller.cleanPoints();
         controller.end = false;
         repaint();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void painelCorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_painelCorMouseClicked
+        //Opção para usuário selecionar cor
         JColorChooser colorChooser = new JColorChooser();
         Color color = JColorChooser.showDialog(null, "Escolha uma cor", Color.blue);
         painelCor.setBackground(color);
@@ -194,6 +199,7 @@ public class TelaDesenho extends javax.swing.JFrame {
         public void paint(Graphics g) {
             super.paint(g);
             
+            //Define cor dar linhas
             g.setColor(Color.blue);
             
             ArrayList<int[]> pontos = controller.getPontos();
@@ -210,18 +216,23 @@ public class TelaDesenho extends javax.swing.JFrame {
                 g.drawLine(x2, y2, x, y);
            }
             
+            //Quando a forma for fechada, é preenchida
             if (controller.end) {
                 
+                //Cor escolhida pelo usuário
                 g.setColor(controller.color);
                 
+                //Liga o primeiro pronto com o último, fechando o polígono
                 int x = pontos.get(0)[0];
                 int y = pontos.get(0)[1];
                 int x2 = pontos.get(pontos.size() -1)[0];
                 int y2 = pontos.get(pontos.size() -1)[1];
                 g.drawLine(x2, y2, x, y);
                 
+                //Pega interseção dos pontos
                 ArrayList<Point> intersectionPoints = controller.findIntersections();
   
+                //Utiliza a interseção para preencher o polígono
                 for (int i = 1; i < intersectionPoints.size(); i++) {
                     //Pega cada ponto do array e desenha na tela
                     int xi = intersectionPoints.get(i).x; 
@@ -230,7 +241,6 @@ public class TelaDesenho extends javax.swing.JFrame {
                     int yi2 = intersectionPoints.get(i-1).y;
 
                     //Desenha o ponto ou reta na tela
-                    //g.drawLine(xi2, yi2, xi, yi);
                     g.drawLine(xi, yi, xi2, yi2);
                 }
                 

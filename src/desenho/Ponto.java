@@ -2,10 +2,11 @@ package desenho;
 
 import java.util.ArrayList;
 
-/**
- * @author Gustavo
+/*
+ * @author Gustavo 
  */
 
+//Classe para criar e manipular pontos
 public class Ponto {
     
     private int x, y;
